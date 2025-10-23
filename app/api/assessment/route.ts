@@ -1,18 +1,32 @@
 // app/api/assessment/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
+type Body = { answers: unknown };
+
+function isValidAnswers(val: unknown): val is number[] {
+  return (
+    Array.isArray(val) &&
+    val.length === 12 &&
+    val.every((n) => Number.isFinite(n) && (n as number) >= 1 && (n as number) <= 5)
+  );
+}
+
 export async function POST(req: NextRequest) {
-  const { answers } = await req.json();
-  if (!Array.isArray(answers) || answers.length !== 12 || answers.some((n:any)=> Number(n) < 1 || Number(n) > 5)) {
+  const body = (await req.json()) as Body;
+
+  if (!isValidAnswers(body.answers)) {
     return NextResponse.json({ error: "Invalid" }, { status: 400 });
   }
 
-  const avg = (arr:number[]) => arr.reduce((a,b)=>a+b,0)/arr.length;
-  const clarity = avg(answers.slice(0,4)) * 20;       // 1..5 -> 20..100
-  const consistency = avg(answers.slice(4,8)) * 20;
-  const composure = avg(answers.slice(8,12)) * 20;
+  const answers = body.answers; // typed as number[] by the guard above
 
-  const ci = Math.round(Math.cbrt(clarity * consistency * composure)); // geometric mean → 0..100
+  const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+  const clarity = avg(answers.slice(0, 4)) * 20; // 1..5 -> 20..100
+  const consistency = avg(answers.slice(4, 8)) * 20;
+  const composure = avg(answers.slice(8, 12)) * 20;
+
+  // geometric mean emphasizes the weakest pillar
+  const ci = Math.round(Math.cbrt(clarity * consistency * composure));
   const band = ci >= 80 ? "Command" : ci >= 60 ? "Operational" : ci >= 40 ? "Fragmented" : "Reactive";
 
   const id = crypto.randomUUID(); // placeholder for future persistence

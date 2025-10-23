@@ -1,9 +1,12 @@
 // app/api/email/assessment-report/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
+type EmailBody = { email: unknown };
+
 export async function POST(req: NextRequest) {
-  const { email } = await req.json();
-  if (!email || typeof email !== "string" || !email.includes("@")) {
+  const { email } = (await req.json()) as EmailBody;
+
+  if (typeof email !== "string" || !email.includes("@")) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
 
@@ -12,6 +15,7 @@ export async function POST(req: NextRequest) {
   const cal = process.env.NEXT_PUBLIC_CALENDAR_URL || "#";
 
   if (!key) {
+    // Safe no-op mode for local/preview
     console.log("[Email fallback] Would send report to:", email);
     return NextResponse.json({ ok: true, mode: "noop" });
   }
@@ -20,7 +24,7 @@ export async function POST(req: NextRequest) {
     await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${key}`,
+        Authorization: `Bearer ${key}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -35,8 +39,8 @@ export async function POST(req: NextRequest) {
       }),
     });
     return NextResponse.json({ ok: true, mode: "resend" });
-  } catch (e:any) {
-    console.error(e);
+  } catch (err: unknown) {
+    console.error(err);
     return NextResponse.json({ error: "Send failed" }, { status: 500 });
   }
 }
