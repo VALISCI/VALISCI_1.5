@@ -22,7 +22,7 @@ export default function VALISCILanding(){
       <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70">
         <div className="mx-auto max-w-[1200px] px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/assets/valisci_logo.svg" alt="VALISCI" width={256} height={64} priority className="h-8 w-auto" />
+            <Image src="/assets/valisci_logo.svg" alt="VALISCI" width={384} height={96} priority className="h-24 w-auto" />
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-600">
             <a href="#doctrine" className="hover:text-neutral-900">Doctrine</a>
