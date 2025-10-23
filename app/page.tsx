@@ -59,16 +59,16 @@ export default function VALISCILanding() {
 
             <div className="mt-8 flex items-center gap-4">
               <a
-                href="#contact"
+                href="/assessment"
                 className="px-5 py-3 rounded-[16px] bg-[#00C7E3] text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#00C7E3] active:translate-y-px transition"
               >
-                Engage the Office
+                Run the Confidence Assessment
               </a>
               <a
-                href="#brief"
+                href="/model"
                 className="px-5 py-3 rounded-[16px] border border-black/10 text-neutral-800 hover:bg-black/[.03] focus:outline-none focus:ring-2 focus:ring-[#00C7E3] active:translate-y-px transition"
               >
-                Download Executive Brief
+                See the Model
               </a>
             </div>
 

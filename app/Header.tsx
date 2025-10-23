@@ -17,22 +17,19 @@ export default function Header() {
           />
         </div>
 
-        {/* Primary nav */}
+        {/* Funnel-first nav */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-600">
-          <a href="#doctrine" className="hover:text-neutral-900">Doctrine</a>
-          <a href="#ethos" className="hover:text-neutral-900">Ethos</a>
-          <a href="#systems" className="hover:text-neutral-900">Systems</a>
-          <a href="#industries" className="hover:text-neutral-900">Industries</a>
-          <a href="#brief" className="hover:text-neutral-900">Brief</a>
+          <a href="/assessment" className="hover:text-neutral-900">Assessment</a>
+          <a href="/model" className="hover:text-neutral-900">Model</a>
+          <a href="/brief" className="hover:text-neutral-900">Brief</a>
           <a href="#contact" className="hover:text-neutral-900">Contact</a>
         </nav>
 
-        {/* CTA */}
         <a
-          href="#contact"
+          href="/assessment"
           className="hidden md:inline-flex px-4 py-2 rounded-[16px] bg-[#00C7E3] text-white font-medium focus:outline-none focus:ring-2 focus:ring-[#00C7E3] active:translate-y-px transition"
         >
-          Initiate
+          Run Assessment
         </a>
       </div>
     </header>
